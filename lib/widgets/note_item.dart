@@ -35,7 +35,7 @@ class NoteItem extends StatelessWidget {
               subtitle: Padding(
                 padding: const EdgeInsets.symmetric(vertical: 16),
                 child: Text(
-                  'Build your career with tharwat samy',
+                  'Build your own career Moaaz',
                   style: TextStyle(
                     fontSize: 18,
                     color: Colors.black.withOpacity(.4),
