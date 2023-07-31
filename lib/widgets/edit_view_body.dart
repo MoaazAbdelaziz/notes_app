@@ -1,33 +1,60 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:notes_app/cubits/notes_cubit/notes_cubit.dart';
+import 'package:notes_app/models/note_model.dart';
 import 'package:notes_app/widgets/custom_app_bar.dart';
 import 'package:notes_app/widgets/custom_text_field.dart';
 
-class EditNoteViewBody extends StatelessWidget {
-  const EditNoteViewBody({Key? key}) : super(key: key);
+class EditNoteViewBody extends StatefulWidget {
+  const EditNoteViewBody({Key? key, required this.note}) : super(key: key);
+
+  final NoteModel note;
+
+  @override
+  State<EditNoteViewBody> createState() => _EditNoteViewBodyState();
+}
+
+class _EditNoteViewBodyState extends State<EditNoteViewBody> {
+  String? title, content;
 
   @override
   Widget build(BuildContext context) {
-    return const Padding(
-      padding: EdgeInsets.symmetric(horizontal: 24),
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 24),
       child: Column(
         children: [
-          SizedBox(
+          const SizedBox(
             height: 50,
           ),
           CustomAppBar(
             title: 'Edit Note',
             icon: Icons.check,
+            onPressed: () {
+              widget.note.noteTitle = title ?? widget.note.noteTitle;
+              widget.note.noteSubTitle = content ?? widget.note.noteSubTitle;
+              widget.note.save();
+              BlocProvider.of<NotesCubit>(context).fetchAllNotes();
+              Navigator.pop(context);
+            },
           ),
-          SizedBox(
+          const SizedBox(
             height: 50,
           ),
-          CustomTextFormField(hint: 'Title'),
-          SizedBox(
+          CustomTextFormField(
+            hint: 'Title',
+            onChanged: (value) {
+              title = value;
+            },
+          ),
+          const SizedBox(
             height: 16,
           ),
           CustomTextFormField(
             hint: 'Content',
             maxLines: 5,
+            onChanged: (value) {
+              content = value;
+            },
           )
         ],
       ),
